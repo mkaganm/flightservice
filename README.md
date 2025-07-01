@@ -4,6 +4,8 @@ Bu proje, PHP ile geliştirilmiş bir uçuş arama ve fiyatlama servisidir. Hem 
 
 REST tabanlı uçuş arama servisi başarıyla çalışmaktadır. Tek yön, gidiş-dönüş ve çoklu uçuş (multi-city) aramaları desteklenmektedir. Tüm uçuş fiyatlarına otomatik olarak %10 hizmet bedeli eklenmektedir.
 
+Parser sadece available olan uçuşları parse ederek döndürür.
+
 Flight şemasında, flightPrice alanı servis ücretinin eklenmiş olduğu son kullanıcıya gösterilen uçuş fiyatını ifade eder. providerPrice ise doğrudan sağlayıcıdan (provider) alınan ham uçuş fiyatıdır. Bu ayrım sayesinde, uçuş fiyatları üzerinde esnek bir fiyatlandırma ve şeffaflık sağlanır.
 
 Kullanıcı doğrulama (auth) işlemlerinde, oturum (token) yönetimi hızlı ve geçici erişim için in-memory (bellek içi) olarak tutulmaktadır. Kullanıcı giriş yaptığında üretilen token'lar, `src/Services/InMemory/InMemoryStorage.php` dosyasında saklanır ve her istek geldiğinde buradan kontrol edilir. 
@@ -136,6 +138,21 @@ Projede kullanıcı doğrulama (auth) işlemleri sırasında üretilen token'lar
 Bu modellerin temel amacı, farklı sağlayıcıların (provider) döndürdüğü karmaşık ve değişken veri yapılarını standart, sade ve kolay yönetilebilir bir forma dönüştürmektir. Böylece servis ve controller katmanları, tüm sağlayıcılar için aynı model arayüzünü kullanarak iş mantığını basit ve sürdürülebilir şekilde kurabilir. Yani modeller, provider bağımsız bir uygulama mimarisi sağlar.
 
 ## Örnek REST Uçuş Arama Request'i
+
+```
+curl --location 'http://localhost:8000/search' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBQllHVUlERU9ORUFQSSIsImlwIjoiMTc2Ljg4LjczLjExMSIsImlkIjoiNWUyMzMzNTEtYjA5Ny00ZmQ5LWE3NjMtMDVlYTgwMzMzZDQyIiwiZm4iOiJHdWlkZSBPbmUiLCJsbiI6IkFQSSIsIm9jIjoiQUFCU0hKODQzNSIsInN0IjoiIiwicHJpdmlsZWdlcyI6WyJMQUFBQUFJIl0sImlhdCI6MTc1MTI2ODE1MSwiZXhwIjoxNzUxMzU0NTUxfQ.n6uQ0h-BUzwC0Hp1YHjo_N2PwapiRmx_oU4P8cUKckg' \
+--header 'Content-Type: application/json' \
+--data '{
+  "from": "CAI",
+  "to": "MCT",
+  "departureDate": "2025-08-24",
+  "returnDate": "2025-08-28",
+  "adultCount": 1,
+  "childCount": 1,
+  "infantCount": 1
+}'
+```
 
 Aşağıda, REST API üzerinden uçuş arama işlemi için kullanılabilecek örnek bir JSON request görebilirsiniz:
 
