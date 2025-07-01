@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "77cd51e2-5af9-44f7-a78a-5daab0b77da9",
+		"name": "airarabia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20762252",
+		"_collection_link": "https://winter-crescent-909780.postman.co/workspace/autotrader~44d2853b-0e04-43a1-89a7-dc6facaa0c2a/collection/20762252-77cd51e2-5af9-44f7-a78a-5daab0b77da9?action=share&source=collection_link&creator=20762252"
+	},
+	"item": [
+		{
+			"name": "flightSearahService",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBQllHVUlERU9ORUFQSSIsImlwIjoiMTc2Ljg4LjczLjExMSIsImlkIjoiNWUyMzMzNTEtYjA5Ny00ZmQ5LWE3NjMtMDVlYTgwMzMzZDQyIiwiZm4iOiJHdWlkZSBPbmUiLCJsbiI6IkFQSSIsIm9jIjoiQUFCU0hKODQzNSIsInN0IjoiIiwicHJpdmlsZWdlcyI6WyJMQUFBQUFJIl0sImlhdCI6MTc1MTI2ODE1MSwiZXhwIjoxNzUxMzU0NTUxfQ.n6uQ0h-BUzwC0Hp1YHjo_N2PwapiRmx_oU4P8cUKckg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"from\": \"CAI\",\r\n  \"to\": \"MCT\",\r\n  \"departureDate\": \"2025-08-24\",\r\n  \"returnDate\": \"2025-08-28\",\r\n  \"adultCount\": 1,\r\n  \"childCount\": 1,\r\n  \"infantCount\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"login\": \"ABYGUIDEONEAPI\",\r\n     \"password\": \"P@ss1234\"\r\n      }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://aero-suite-stage4-airarabia.isaaviation.net/api/auth/authenticate",
+					"protocol": "https",
+					"host": [
+						"aero-suite-stage4-airarabia",
+						"isaaviation",
+						"net"
+					],
+					"path": [
+						"api",
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBQllHVUlERU9ORUFQSSIsImlwIjoiMTc2Ljg4LjczLjExMSIsImlkIjoiNWUyMzMzNTEtYjA5Ny00ZmQ5LWE3NjMtMDVlYTgwMzMzZDQyIiwiZm4iOiJHdWlkZSBPbmUiLCJsbiI6IkFQSSIsIm9jIjoiQUFCU0hKODQzNSIsInN0IjoiIiwicHJpdmlsZWdlcyI6WyJMQUFBQUFJIl0sImlhdCI6MTc1MTI2ODE1MSwiZXhwIjoxNzUxMzU0NTUxfQ.n6uQ0h-BUzwC0Hp1YHjo_N2PwapiRmx_oU4P8cUKckg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"searchOnds\": [\r\n        {\r\n            \"origin\": {\r\n                \"code\": \"SAW\",\r\n                \"locationType\": \"AIRPORT\"\r\n            },\r\n            \"destination\": {\r\n                \"code\": \"CMN\",\r\n                \"locationType\": \"AIRPORT\"\r\n            },\r\n            \"searchStartDate\": \"2025-08-24\",\r\n            \"searchEndDate\": \"2025-08-24\",\r\n            \"cabinClass\": \"Y\",\r\n            \"bookingType\": \"NORMAL\",\r\n            \"interlineQuoteDetails\": {}\r\n        }\r\n    ],\r\n    \"paxCounts\": [\r\n        {\r\n            \"paxType\": \"ADT\",\r\n            \"count\": 1\r\n        },\r\n        {\r\n            \"paxType\": \"CHD\",\r\n            \"count\": 1\r\n        },\r\n        {\r\n            \"paxType\": \"INF\",\r\n            \"count\": 1\r\n        }\r\n    ],\r\n    \"currencyCode\": \"AED\",\r\n    \"cabinClass\": \"Y\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://aero-search-api-service-stage4-airarabia.isaaviation.net/aerosearch.FlightService/findOndWiseFlightCombinations",
+					"protocol": "https",
+					"host": [
+						"aero-search-api-service-stage4-airarabia",
+						"isaaviation",
+						"net"
+					],
+					"path": [
+						"aerosearch.FlightService",
+						"findOndWiseFlightCombinations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
