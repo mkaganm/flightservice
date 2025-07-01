@@ -1,0 +1,11 @@
+.env
+.idea/
+vendor/
+node_modules/
+coverage/
+logs/
+*.log
+cache/
+tmp/
+.DS_Store
+Thumbs.db
