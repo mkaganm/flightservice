@@ -12,6 +12,11 @@ Kullanıcı doğrulama (auth) işlemlerinde, oturum (token) yönetimi hızlı ve
 
 SOAP entegrasyonu ise geliştirme aşamasındadır ve henüz tam olarak tamamlanmamıştır. İlerleyen sürümlerde SOAP ile de uçuş arama ve fiyatlama desteği sağlanacaktır.
 
+## Ekran Görüntüsü
+
+Aşağıda, uygulamanın arayüzüne ait bir ekran görüntüsü yer almaktadır:
+
+![Uygulama Ekran Görüntüsü](https://raw.githubusercontent.com/mkaganm/flightservice/refs/heads/master/Screenshot%202025-07-01%20151607.png)
 
 ## Proje Dosya Yapısı (Detaylı Açıklama)
 
@@ -240,3 +245,6 @@ Aşağıda, uçuş arama işlemi sonucunda dönebilecek örnek bir JSON response
   }
 ]
 ```
+
+
+
