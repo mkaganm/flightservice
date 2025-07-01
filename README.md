@@ -60,7 +60,7 @@ flightservice/
 - **src/Providers/**: Farklı havayolu veya servis sağlayıcılarına ait tüm entegrasyon kodları burada yer alır. Her sağlayıcı için ayrı bir klasör açılır.
 - **src/Providers/AirArabia/REST ve SOAP/**: AirArabia'nın REST ve SOAP API'lerine özel builder, parser ve servis katmanları.
 - **src/Services/**: Uygulamanın iş mantığı (business logic) burada bulunur. Fiyat hesaplama, arama gibi servisler.
-- **src/Services/InMemory/**: Geçici, bellekte tutulan servisler (ör: test veya demo amaçlı).
+- **src/Services/InMemory/**: Geçici, bellekte tutulan servisler
 
 ### Servis, Builder ve Parser Katmanları Açıklaması
 
@@ -71,38 +71,18 @@ flightservice/
 
 - **Search Servisi (REST Örneği):**
   - Uçuş arama işlemlerini REST API üzerinden yönetir.
-  - `src/Controllers/SearchController.php` dosyası HTTP isteklerini karşılar ve gelen arama parametrelerini alır.
-  - Arama ile ilgili iş mantığı `src/Services/FlightSearchService.php` içinde bulunur; burada hangi sağlayıcıdan arama yapılacağına karar verilir.
-  - REST tabanlı sağlayıcılar için arama sonuçlarının işlenmesi `src/Providers/AirArabia/REST/Parser/FlightSearchResponseParser.php` gibi parser sınıfları ile yapılır.
-  - Arama isteklerinin oluşturulması için `src/Providers/AirArabia/REST/Builder/FlightSearchRequestBuilder.php` gibi builder sınıfları kullanılır.
+  - `SearchController` gelen istekleri alır, `FlightSearchService` iş mantığını yürütür.
+  - Builder sınıfı ile istek hazırlanır, parser ile yanıt işlenir.
 
 - **Builder Sınıfları (REST Örneği):**
-  - Dış REST servislere gönderilecek arama veya fiyat isteklerinin (request) doğru formatta ve standartta oluşturulmasını sağlar.
-  - Her sağlayıcı için ayrı builder sınıfları bulunur (örn. `FlightSearchRequestBuilder`, `AirPriceRequestBuilder`).
-  - Örnek: `src/Providers/AirArabia/REST/Builder/FlightSearchRequestBuilder.php` uçuş arama için, `src/Providers/AirArabia/REST/Builder/AirPriceRequestBuilder.php` fiyat sorgulama için kullanılır.
+  - REST servislerine gönderilecek arama/fiyat isteklerini standart formata getirir.
+  - Her sağlayıcı için ayrı builder bulunur (örn. `FlightSearchRequestBuilder`).
 
 - **Parser Sınıfları (REST Örneği):**
-  - Dış REST servislerden gelen yanıtların (response) uygulamanın anlayacağı veri yapılarına dönüştürülmesini sağlar.
-  - Her sağlayıcı için ayrı parser sınıfları bulunur (örn. `FlightSearchResponseParser`, `AirPriceResponseParser`).
-  - Örnek: `src/Providers/AirArabia/REST/Parser/FlightSearchResponseParser.php` uçuş arama yanıtı için, `src/Providers/AirArabia/REST/Parser/AirPriceResponseParser.php` fiyat yanıtı için kullanılır.
+  - REST servislerinden gelen yanıtları uygulamanın anlayacağı veri yapılarına dönüştürür.
+  - Her sağlayıcı için ayrı parser bulunur (örn. `FlightSearchResponseParser`).
 
-Bu katmanlar sayesinde hem servislerin bakımı kolaylaşır hem de yeni sağlayıcı/entegrasyon eklemek çok daha hızlı ve güvenli olur.
-
-### REST Katmanı Örnekleri
-
-- **REST Builder Örneği:**
-  - `src/Providers/AirArabia/REST/Builder/FlightSearchRequestBuilder.php` dosyası, AirArabia REST API'sine gönderilecek uçuş arama isteklerini doğru formatta hazırlar.
-  - Parametreleri alır, gerekli alanları doldurur ve dış servise uygun bir dizi/JSON oluşturur.
-
-- **REST Parser Örneği:**
-  - `src/Providers/AirArabia/REST/Parser/FlightSearchResponseParser.php` dosyası, AirArabia REST API'sinden dönen uçuş arama yanıtlarını uygulamanın anlayacağı veri yapılarına dönüştürür.
-  - Gelen JSON veya dizi içinden uçuş, fiyat, segment gibi bilgileri ayrıştırır ve sadeleştirir.
-
-- **REST Service Örneği:**
-  - `src/Providers/AirArabia/REST/Services/FlightSearchService.php` dosyası, uçuş arama işleminin iş mantığını yönetir.
-  - Builder ile istek oluşturur, REST API'ye gönderir, Parser ile yanıtı işler ve sonucu döner.
-
-Bu yapı sayesinde REST tabanlı tüm işlemler modüler, test edilebilir ve kolayca genişletilebilir olur. Her sağlayıcı için benzer builder, parser ve service dosyaları oluşturulabilir.
+Bu katmanlar sayesinde servislerin bakımı kolaylaşır, yeni sağlayıcı eklemek hızlı ve güvenli olur.
 
 ### FlightPriceService Açıklaması
 
@@ -120,7 +100,6 @@ Projede kullanıcı doğrulama (auth) işlemleri sırasında üretilen token'lar
 - Kullanıcı giriş yaptığında bir token üretilir ve InMemoryStorage'a kaydedilir.
 - Her istek geldiğinde, gönderilen token InMemoryStorage üzerinden kontrol edilir.
 - Çıkış yapıldığında veya token süresi dolduğunda, ilgili token InMemoryStorage'dan silinir.
-- Bu yöntem, test ve geliştirme ortamları için hızlı ve kolay bir çözüm sunar. Gerçek ortamda ise Redis gibi kalıcı bir in-memory store tercih edilebilir.
 
 **Avantajları:**
 - Disk veya veritabanı erişimi olmadan çok hızlı token kontrolü sağlar.
@@ -245,6 +224,3 @@ Aşağıda, uçuş arama işlemi sonucunda dönebilecek örnek bir JSON response
   }
 ]
 ```
-
-
-
